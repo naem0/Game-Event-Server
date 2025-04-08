@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const tournamentSchema = new Schema({
-    title: { type: String, required: true }, // e.g., "Solo Time | Mobile | 37538"
+    title: { type: String, required: true }, // e.g., "Solo Time"
     device: { type: String, required: true }, // e.g., "Mobile"
     tournamentCode: { type: String, required: true }, // e.g., "37538"
     logo: { type: String, required: true }, // e.g., "https://example.com/logo.png"

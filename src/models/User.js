@@ -20,6 +20,34 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  profileImage: {
+    type: String,
+    default: "",
+  },
+  phone: {
+    type: String,
+    default: "",
+  },
+  address: {
+    type: String,
+    default: "",
+  },
+  referralCode: {
+    type: String,
+    unique: true,
+  },
+  referredBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  referralCount: {
+    type: Number,
+    default: 0,
+  },
+  balance: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -33,15 +61,25 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Middleware to hash password before saving
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next()
+  if (!this.isModified("password") && this.referralCode) {
+    return next()
   }
 
-  const salt = await bcrypt.genSalt(10)
-  this.password = await bcrypt.hash(this.password, salt)
+  // Hash password
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password, salt)
+  }
+
+  // Generate referral code if not exists
+  if (!this.referralCode) {
+    // Generate a unique 8-character code
+    this.referralCode = Math.random().toString(36).substring(2, 10).toUpperCase()
+  }
+
+  next()
 })
 
 const User = mongoose.model("User", userSchema)
 
 export default User
-

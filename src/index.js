@@ -14,6 +14,7 @@ import connectDB from './config/db.js';
 import tournamentRoutes from './routes/tournamentRouter.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import referralRoutes from "./routes/referralRoutes.js"
 
 dotenv.config();
 connectDB();
@@ -25,11 +26,11 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => { res.send('Hello World!')});
-// app.use('/api/users', userRoutes);
-app.use('/api/tournaments', tournamentRoutes);
 // Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/referrals", referralRoutes)
+app.use('/api/tournament', tournamentRoutes);
 
 
 app.use((req, res) => { res.status(404).send('🔍 404! Page not found')});

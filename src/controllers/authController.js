@@ -5,7 +5,7 @@ import User from "../models/User.js"
 // @access  Public
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, referrerId } = req.body
 
     // Check if user already exists
     const userExists = await User.findOne({ email })
@@ -13,21 +13,40 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" })
     }
 
-    // Create new user
-    const user = await User.create({
+    // Create user data
+    const userData = {
       name,
       email,
       password,
       role: "user",
-    })
+    }
+
+    // If referred by someone, add reference
+    if (referrerId) {
+      userData.referredBy = referrerId
+    }
+
+    // Create new user
+    const user = await User.create(userData)
 
     if (user) {
+      // If user was referred, update referrer's stats and add bonus
+      if (referrerId) {
+        const referrer = await User.findById(referrerId)
+        if (referrer) {
+          referrer.referralCount += 1
+          referrer.balance += 20 // Add 20 taka bonus
+          await referrer.save()
+        }
+      }
+
       res.status(201).json({
         message: "User registered successfully",
         id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
+        referralCode: user.referralCode,
       })
     } else {
       res.status(400).json({ message: "Invalid user data" })
@@ -69,4 +88,3 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error" })
   }
 }
-
