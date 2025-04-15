@@ -1,14 +1,36 @@
-import express from 'express';
-import { addTournament, getTournaments, getTournamentById, deleteTournament, updateTournament } from '../controllers/tournamentController.js';
-import { admin, protect } from '../middleware/authMiddleware.js';
+import express from "express"
+import {
+    createTournament,
+    updateTournament,
+    getTournaments,
+    getTournamentById,
+    registerForTournament,
+    getUserRegistrations,
+    getTournamentRegistrations,
+    changeTournamentStatus,
+    getTournamentMoods,
+    getFeaturedTournaments,
+    getHistoricalTournaments,
+} from "../controllers/tournamentController.js"
+import { protect, admin } from "../middleware/authMiddleware.js"
 
-const router = express.Router();
+const router = express.Router()
 
-// Define the routes for tournaments
-router.post('/', protect, admin, addTournament); // Add a new tournament
-router.get('/', getTournaments); // Get all tournaments
-router.get('/:id', protect, admin, getTournamentById); // Get a tournament by ID
-// router.delete('/:id', deleteTournament); // Delete a tournament by ID
-// router.put('/:id', updateTournament); // Update a tournament by ID
+// Public routes
+router.get("/", getTournaments)
+router.get("/moods", getTournamentMoods)
+router.get("/featured", getFeaturedTournaments)
+router.get("/historical", getHistoricalTournaments)
+router.get("/:id", getTournamentById)
 
-export default router;
+// Private routes
+router.get("/user/registrations", protect, getUserRegistrations)
+router.post("/:id/register", protect, registerForTournament)
+
+// Admin routes
+router.post("/", protect, admin, createTournament)
+router.put("/:id", protect, admin, updateTournament)
+router.put("/:id/status", protect, admin, changeTournamentStatus)
+router.get("/:id/registrations", protect, admin, getTournamentRegistrations)
+
+export default router

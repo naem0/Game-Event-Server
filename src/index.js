@@ -6,9 +6,11 @@ import connectDB from './config/db.js';
 import tournamentRoutes from './routes/tournamentRouter.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import referralRoutes from "./routes/referralRoutes.js"
-import topUpRoutes from "./routes/topUpRoutes.js"
-import transactionRoutes from "./routes/transactionRoutes.js"
+import referralRoutes from "./routes/referralRoutes.js";
+import topUpRoutes from "./routes/topUpRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
+import withdrawRoutes from "./routes/withdrawRoutes.js";
+import transferRoutes from "./routes/transferRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -27,6 +29,8 @@ app.use("/api/referrals", referralRoutes)
 app.use('/api/tournaments', tournamentRoutes);
 app.use("/api/topup", topUpRoutes)
 app.use("/api/transactions", transactionRoutes)
+app.use("/api/withdraw", withdrawRoutes)
+app.use("/api/transfer", transferRoutes)
 
 
 

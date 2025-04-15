@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose from "mongoose"
 
-const tournamentSchema = new Schema({
+const tournamentSchema = new mongoose.Schema({
     title: { type: String, required: true }, // e.g., "Solo Time"
     device: { type: String, required: true }, // e.g., "Mobile"
+    mood: { type: String, required: true }, // e.g., "Classic"
     tournamentCode: { type: String, required: true }, // e.g., "37538"
     logo: { type: String, required: true }, // e.g., "https://example.com/logo.png"
     coverImage: { type: String, required: true }, // e.g., "https://example.com/cover.png"
@@ -22,8 +22,23 @@ const tournamentSchema = new Schema({
     playersRegistered: { type: Number, default: 0 }, // e.g., 0
     isActive: { type: Boolean, default: true }, // e.g., true
     isCompleted: { type: Boolean, default: false }, // e.g., false
-    createdAt: { type: Date, default: Date.now }
-});
+    createdAt: { type: Date, default: Date.now },
+})
 
-const Tournament = mongoose.model('Tournament', tournamentSchema);
-export default Tournament;
+// Generate a unique tournament code before saving
+tournamentSchema.pre("save", async function (next) {
+    if (!this.isNew) {
+        return next()
+    }
+
+    // Generate a random 5-digit code if not provided
+    if (!this.tournamentCode) {
+        this.tournamentCode = Math.floor(10000 + Math.random() * 90000).toString()
+    }
+
+    next()
+})
+
+const Tournament = mongoose.model("Tournament", tournamentSchema)
+
+export default Tournament
