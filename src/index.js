@@ -1,11 +1,3 @@
-// const express = require('express');
-// const dotenv = require('dotenv');
-// const cors = require('cors');
-// const morgan = require('morgan');
-// const connectDB = require('./config/db');
-// const tournamentRoutes = require('./routes/tournamentRouter');
-// const userRoutes = require('./routes/userRoutes');
-// const authRoutes = require('./routes/authRoutes');
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -15,6 +7,8 @@ import tournamentRoutes from './routes/tournamentRouter.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import referralRoutes from "./routes/referralRoutes.js"
+import topUpRoutes from "./routes/topUpRoutes.js"
+import transactionRoutes from "./routes/transactionRoutes.js"
 
 dotenv.config();
 connectDB();
@@ -30,7 +24,10 @@ app.get('/', (req, res) => { res.send('Hello World!')});
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/referrals", referralRoutes)
-app.use('/api/tournament', tournamentRoutes);
+app.use('/api/tournaments', tournamentRoutes);
+app.use("/api/topup", topUpRoutes)
+app.use("/api/transactions", transactionRoutes)
+
 
 
 app.use((req, res) => { res.status(404).send('🔍 404! Page not found')});
