@@ -11,6 +11,7 @@ import topUpRoutes from "./routes/topUpRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 import withdrawRoutes from "./routes/withdrawRoutes.js";
 import transferRoutes from "./routes/transferRoutes.js";
+import prizeRoutes from "./routes/prizeRoutes.js"
 
 dotenv.config();
 connectDB();
@@ -33,6 +34,7 @@ app.use("/api/topup", topUpRoutes)
 app.use("/api/transactions", transactionRoutes)
 app.use("/api/withdraw", withdrawRoutes)
 app.use("/api/transfer", transferRoutes)
+app.use("/api/prizes", prizeRoutes)
 
 
 
