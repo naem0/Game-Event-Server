@@ -22,6 +22,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => { res.send('Hello World!')});
+// Serve uploaded files
+app.use("/uploads", express.static("uploads"))
 // Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
