@@ -103,7 +103,7 @@ export const createTournament = async (req, res) => {
         })
     } catch (error) {
         console.error("Create tournament error:", error)
-        res.status(500).json({ message: "Server error" })
+        res.status(500).json({ message: "Server error", error: error.message })
     }
 }
 
