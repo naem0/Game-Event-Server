@@ -17,23 +17,7 @@ connectDB();
 
 const app = express();
 
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  next();
-});
-
-import cors from 'cors';
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['*']
-}));
-
-app.options('*', cors());
-
+app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
