@@ -17,7 +17,7 @@ connectDB();
 
 const app = express();
 
-// 1. সম্পূর্ণ CORS অ্যাক্সেস দেওয়ার জন্য
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -25,7 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// 2. অথবা cors প্যাকেজ ব্যবহার করে সম্পূর্ণ অ্যাক্সেস
 import cors from 'cors';
 app.use(cors({
   origin: '*',
@@ -33,7 +32,7 @@ app.use(cors({
   allowedHeaders: ['*']
 }));
 
-app.options('*', cors()); // সমস্ত OPTIONS রিকুয়েস্ট হ্যান্ডেল করার জন্য
+app.options('*', cors());
 
 app.use(express.json());
 app.use(morgan('dev'));
