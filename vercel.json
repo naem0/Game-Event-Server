@@ -12,5 +12,8 @@
             "dest": "src/index.js",
             "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
         }
-    ]
+    ],
+    "limits": {
+    "bodySize": "10mb"
+  }
 }
