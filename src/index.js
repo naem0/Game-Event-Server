@@ -19,11 +19,32 @@ connectDB();
 const app = express();
 
 
-app.use(cors());
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.FRONTEND_URL_2,
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // <-- এটা আগে যেভাবে ছিল সেভাবে না দিয়ে এমনভাবে দিতে হবে
+
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.get('/', (req, res) => { res.send('Hello World!')});
+app.get('/', (req, res) => { res.send('Hello World!') });
 // Serve uploaded files
 app.use("/uploads", express.static("uploads"))
 // Routes
@@ -39,7 +60,7 @@ app.use("/api/prizes", prizeRoutes)
 
 
 
-app.use((req, res) => { res.status(404).send('🔍 404! Page not found')});
+app.use((req, res) => { res.status(404).send('🔍 404! Page not found') });
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
