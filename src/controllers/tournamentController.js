@@ -45,6 +45,11 @@ const upload = multer({
 // @access  Admin
 export const createTournament = async (req, res) => {
     try {
+        // Check if the request is multipart/form-data
+        if (!req.is("multipart/form-data")) {
+            return res.status(400).json({ message: "Content-Type must be multipart/form-data" })
+        }
+
         upload(req, res, async (err) => {
             if (err) {
                 console.error("Upload error:", err)

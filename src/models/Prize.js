@@ -1,15 +1,29 @@
 import mongoose from "mongoose"
 
+const isValidObjectId = (v) => mongoose.Types.ObjectId.isValid(v);
+
 const prizeSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
+    validate: {
+      validator: function(v) {
+        return isValidObjectId(v);
+      },
+      message: props => `${props.value} is not a valid ObjectId`
+    }
   },
   tournament: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Tournament",
     required: true,
+    validate: {
+      validator: function(v) {
+        return isValidObjectId(v);
+      },
+      message: props => `${props.value} is not a valid ObjectId`
+    }
   },
   tournamentCode: {
     type: String,
