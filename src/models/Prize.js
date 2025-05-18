@@ -46,7 +46,7 @@ const prizeSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ["bkash", "nagad"]
+    enum: ["bkash", "nagad", "N/A", null, ""]
   },
   proofImage: {
     type: String,
