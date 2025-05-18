@@ -44,18 +44,15 @@ const upload = multer({
 // @route   POST /api/tournaments
 // @access  Admin
 export const createTournament = async (req, res) => {
-    try {
-        // Check if the request is multipart/form-data
-        if (!req.is("multipart/form-data")) {
-            return res.status(400).json({ message: "Content-Type must be multipart/form-data" })
-        }
-
-        upload(req, res, async (err) => {
+    // First handle the upload middleware separately
+    upload(req, res, async (err) => {
+        try {
             if (err) {
                 console.error("Upload error:", err)
                 return res.status(400).json({ message: err.message })
             }
 
+            // Now check for files after upload middleware has processed
             if (!req.files || !req.files.logo || !req.files.coverImage) {
                 return res.status(400).json({ message: "Please upload both logo and cover image" })
             }
@@ -105,11 +102,11 @@ export const createTournament = async (req, res) => {
                 message: "Tournament created successfully",
                 tournament,
             })
-        })
-    } catch (error) {
-        console.error("Create tournament error:", error)
-        res.status(500).json({ message: "Server error", error: error.message })
-    }
+        } catch (error) {
+            console.error("Create tournament error:", error)
+            res.status(500).json({ message: "Server error", error: error.message })
+        }
+    })
 }
 
 // @desc    Update a tournament

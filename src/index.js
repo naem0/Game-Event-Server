@@ -18,11 +18,12 @@ connectDB();
 
 const app = express();
 
+app.set('trust proxy', true);
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// রাউটস
+// Routes
 app.get('/', (req, res) => res.send('API Running'));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -35,6 +36,7 @@ app.use("/api/transfer", transferRoutes);
 app.use("/api/prizes", prizeRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use((req, res) => { res.status(404).send('🔍 404! Page not found') });
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
