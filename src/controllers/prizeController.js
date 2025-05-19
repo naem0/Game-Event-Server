@@ -161,31 +161,6 @@ export const getUserPrizeRequests = async (req, res) => {
   }
 }
 
-// @desc    Get prize request details
-// @route   GET /api/prizes/:id
-// @access  Private/Admin
-export const getPrizeRequestDetails = async (req, res) => {
-  try {
-    const prizeRequest = await Prize.findById(req.params.id)
-      .populate("user", "name email")
-      .populate("tournament", "title game type winningPrize perKillPrize")
-
-    if (!prizeRequest) {
-      return res.status(404).json({ message: "Prize request not found" })
-    }
-
-    // Check if the user is the owner or an admin
-    if (prizeRequest.user._id.toString() !== req.user._id.toString() && req.user.role !== "admin") {
-      return res.status(403).json({ message: "Not authorized" })
-    }
-
-    res.status(200).json(prizeRequest)
-  } catch (error) {
-    console.error("Get prize request details error:", error)
-    res.status(500).json({ message: "Server error" })
-  }
-}
-
 // @desc    Get all prize requests (admin)
 // @route   GET /api/prizes/admin
 // @access  Admin
@@ -231,6 +206,31 @@ export const getAllPrizeRequests = async (req, res) => {
     })
   } catch (error) {
     console.error("Get all prize requests error:", error)
+    res.status(500).json({ message: "Server error" })
+  }
+}
+
+// @desc    Get prize request details
+// @route   GET /api/prizes/:id
+// @access  Private/Admin
+export const getPrizeRequestDetails = async (req, res) => {
+  try {
+    const prizeRequest = await Prize.findById(req.params.id)
+      .populate("user", "name email")
+      .populate("tournament", "title game type winningPrize perKillPrize")
+
+    if (!prizeRequest) {
+      return res.status(404).json({ message: "Prize request not found" })
+    }
+
+    // Check if the user is the owner or an admin
+    if (prizeRequest.user._id.toString() !== req.user._id.toString() && req.user.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" })
+    }
+
+    res.status(200).json(prizeRequest)
+  } catch (error) {
+    console.error("Get prize request details error:", error)
     res.status(500).json({ message: "Server error" })
   }
 }

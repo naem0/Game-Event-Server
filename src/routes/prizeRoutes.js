@@ -12,15 +12,15 @@ import { protect, admin } from "../middleware/authMiddleware.js"
 
 const router = express.Router()
 
+// Admin routes
+router.get("/admin", protect, admin, getAllPrizeRequests)
+router.put("/:id/process", protect, admin, processPrizeRequest)
+router.post("/distribute", protect, admin, distributePrizeMoney)
+
 // User routes
 router.get("/recent-tournaments", protect, getRecentTournaments)
 router.post("/", protect, createPrizeRequest)
 router.get("/", protect, getUserPrizeRequests)
 router.get("/:id", protect, getPrizeRequestDetails)
-
-// Admin routes
-router.get("/admin", protect, admin, getAllPrizeRequests)
-router.put("/:id/process", protect, admin, processPrizeRequest)
-router.post("/distribute", protect, admin, distributePrizeMoney)
 
 export default router
