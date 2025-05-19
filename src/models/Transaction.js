@@ -25,7 +25,7 @@ const transactionSchema = new mongoose.Schema({
   },
   referenceModel: {
     type: String,
-    enum: ["TopUp", "User", "Withdrawal", "Tournament"],
+    enum: ["TopUp", "User", "Withdrawal", "Tournament", "Prize"],
   },
   createdAt: {
     type: Date,
