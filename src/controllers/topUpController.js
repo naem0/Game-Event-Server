@@ -48,8 +48,8 @@ export const createTopUp = async (req, res) => {
 
       const { amount, transactionId } = req.body
 
-      if (!amount || !transactionId || !req.file) {
-        return res.status(400).json({ message: "Please provide amount, transaction ID, and slip image" })
+      if (!amount || !req.file) {
+        return res.status(400).json({ message: "Please provide amount and slip image" })
       }
 
       // Create top-up request

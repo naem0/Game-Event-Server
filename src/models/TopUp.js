@@ -8,17 +8,14 @@ const topUpSchema = new mongoose.Schema({
   },
   amount: {
     type: Number,
-    required: true,
     min: 1,
   },
   transactionId: {
     type: String,
-    required: true,
     trim: true,
   },
   slipImage: {
     type: String,
-    required: true,
   },
   status: {
     type: String,

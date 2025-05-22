@@ -74,6 +74,8 @@ export const createTournament = async (req, res) => {
                 perKillPrize,
                 rules,
                 maxPlayers,
+                roomId,
+                roomPassword,
             } = req.body
 
             // Create tournament
@@ -96,6 +98,8 @@ export const createTournament = async (req, res) => {
                 perKillPrize: Number(perKillPrize),
                 rules,
                 maxPlayers: Number(maxPlayers),
+                roomId,
+                roomPassword,
             })
 
             res.status(201).json({
@@ -146,6 +150,8 @@ export const updateTournament = async (req, res) => {
                 maxPlayers,
                 isActive,
                 isCompleted,
+                roomId,
+                roomPassword,
             } = req.body
 
             if (title) tournament.title = title
@@ -166,6 +172,8 @@ export const updateTournament = async (req, res) => {
             if (maxPlayers) tournament.maxPlayers = Number(maxPlayers)
             if (isActive !== undefined) tournament.isActive = isActive === "true" || isActive === true
             if (isCompleted !== undefined) tournament.isCompleted = isCompleted === "true" || isCompleted === true
+            if (roomId) tournament.roomId = roomId
+            if (roomPassword) tournament.roomPassword = roomPassword
 
             // Update images if provided
             if (req.files) {

@@ -12,11 +12,20 @@ export const createWithdrawal = async (req, res) => {
     if (!amount || !accountNumber || !paymentMethod) {
       return res.status(400).json({ message: "Please provide amount, account number, and payment method" })
     }
+    // Check minimum withdrawal amount
+    if (amount < 100) {
+      return res.status(400).json({ message: "Minimum withdrawal amount is 100 taka" })
+    }
 
     // Check if user has enough balance
     const user = await User.findById(req.user._id)
     if (!user) {
       return res.status(404).json({ message: "User not found" })
+    }
+
+    // Check if user is suspended
+    if (user.isSuspended) {
+      return res.status(403).json({ message: "Your account is suspended" })
     }
 
     if (user.balance < amount) {
